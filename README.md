@@ -12,7 +12,7 @@
 
 ### Josh Levine <br />
 
-[Github]() | [LinkedIn]() <br />
+[Github](https://github.com/jadlevine) | [LinkedIn](https://www.linkedin.com/in/joshua-adam-levine/) <br />
 
 ### Date: 11/18/2022
 
