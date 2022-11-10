@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
       Plant.belongsTo(models.Room, {
-        foreignKey: 'roomId'
+        foreignKey: 'plantId'
       })
     }
   }
