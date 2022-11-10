@@ -13,7 +13,7 @@ module.exports = {
           raw: true
         })
         return {
-          name: falso.rand(),
+          name: falso.randCardinalDirection(),
           userId: user.id,
           createdAt: new Date(),
           updatedAt: new Date()
