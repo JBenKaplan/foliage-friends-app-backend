@@ -1,0 +1,5 @@
+sequelize model:generate --name User --attributes name:string,email:string,passwordDigest:integer
+sequelize model:generate --name Plant --attributes name:string,type:string,image:string,details:string,userId:integer,roomId:integer
+sequelize model:generate --name Room --attributes name:string,userId:integer
+
+sequelize db:migrate
