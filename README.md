@@ -47,6 +47,7 @@ To use our app, follow the [link]() to our full deployed site.
 
 - Development
   - Postgresql
+  - Sequelize
   - Express
 - Deployment
   - Heroku
