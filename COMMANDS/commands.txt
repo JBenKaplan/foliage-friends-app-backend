@@ -3,3 +3,7 @@ sequelize model:generate --name Plant --attributes name:string,type:string,image
 sequelize model:generate --name Room --attributes name:string,userId:integer
 
 sequelize db:migrate
+
+sequelize seed:generate --name users
+sequelize seed:generate --name rooms
+sequelize seed:generate --name plants

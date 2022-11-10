@@ -4,10 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(models.Plant, {
-        foreignKey: 'userId'
+        foreignKey: 'plantId'
       })
       User.hasMany(models.Room, {
-        foreignKey: 'roomId'
+        foreignKey: 'userId'
       })
     }
   }
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
-      passwordDigest: DataTypes.INTEGER
+      passwordDigest: DataTypes.STRING
     },
     {
       sequelize,

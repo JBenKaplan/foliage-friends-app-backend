@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
       Plant.belongsTo(models.Room, {
-        foreignKey: 'roomId'
+        foreignKey: 'plantId'
       })
     }
   }
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         onDelete: 'CASCADE',
         references: {
-          model: 'users',
+          model: 'rooms',
           key: 'id'
         }
       }
