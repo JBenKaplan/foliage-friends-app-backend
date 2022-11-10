@@ -17,7 +17,7 @@ module.exports = {
           raw: true
         })
         return {
-          name: falso.randCardinalDirection(),
+          name: falso.randMovieCharacter(),
           userId: user.id,
           roomId: room.id,
           createdAt: new Date(),
