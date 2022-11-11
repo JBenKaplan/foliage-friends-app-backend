@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
       Room.hasMany(models.Plant, {
-        foreignKey: 'plantId'
+        foreignKey: 'roomId'
       })
     }
   }
@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         references: {
           model: 'users',
+          key: 'id'
+        }
+      },
+      plantId: {
+        type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'plants',
           key: 'id'
         }
       }
