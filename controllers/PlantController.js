@@ -9,52 +9,46 @@ const GetPlants = async (req, res) => {
   }
 }
 
-const GetPlantByUserId = async (req, res) => {
+const GetPlantByUser = async (req, res) => {
   try {
-    const userAndPlants = await Plant.findByPk(req.params.user_id)
+    const userAndPlants = await Plant.findAll(
+      { where: { userId: req.params.user_id } },
+      { include: User }
+    )
     res.send(userAndPlants)
   } catch (error) {
     throw error
   }
 }
 
-const GetBooks = async (req, res) => {
+const CreatePlant = async (req, res) => {
   try {
-    const book = await Book.findAll()
-    res.send(book)
+    let plantBody = { ...req.body }
+    let plant = await Plant.create(plantBody)
+    res.send(plant)
   } catch (error) {
     throw error
   }
 }
 
-const CreateBook = async (req, res) => {
+const UpdatePlant = async (req, res) => {
   try {
-    let bookBody = { ...req.body }
-    let book = await Book.create(bookBody)
-    res.send(book)
-  } catch (error) {
-    throw error
-  }
-}
-
-const UpdateBook = async (req, res) => {
-  try {
-    let bookId = parseInt(req.params.book_id)
-    let updatedBook = await Book.update(req.body, {
-      where: { id: bookId },
+    let plantId = parseInt(req.params.plant_id)
+    let updatedPlant = await Plant.update(req.body, {
+      where: { id: plantId },
       returning: true
     })
-    res.send(updatedBook)
+    res.send(updatedPlant)
   } catch (error) {
     throw error
   }
 }
 
-const DeleteBook = async (req, res) => {
+const DeletePlant = async (req, res) => {
   try {
-    let bookId = parseInt(req.params.book_id)
-    await Book.destroy({ where: { id: bookId } })
-    res.send({ message: `Deleted book with an id of ${bookId}` })
+    let plantId = parseInt(req.params.plant_id)
+    await Plant.destroy({ where: { id: plantId } })
+    res.send({ message: `Deleted plant with an id of ${plantId}` })
   } catch (error) {
     throw error
   }
@@ -62,9 +56,8 @@ const DeleteBook = async (req, res) => {
 
 module.exports = {
   GetPlants,
-  GetPlantByUserId,
-  GetBooks,
-  CreateBook,
-  UpdateBook,
-  DeleteBook
+  GetPlantByUser,
+  CreatePlant,
+  UpdatePlant,
+  DeletePlant
 }
