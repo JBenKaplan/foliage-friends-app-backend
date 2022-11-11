@@ -20,43 +20,34 @@ const GetUserPlants = async (req, res) => {
   }
 }
 
-const GetBooks = async (req, res) => {
+const CreateUser = async (req, res) => {
   try {
-    const book = await Book.findAll()
-    res.send(book)
+    let userBody = { ...req.body }
+    let user = await User.create(userBody)
+    res.send(user)
   } catch (error) {
     throw error
   }
 }
 
-const CreateBook = async (req, res) => {
+const UpdateUser = async (req, res) => {
   try {
-    let bookBody = { ...req.body }
-    let book = await Book.create(bookBody)
-    res.send(book)
-  } catch (error) {
-    throw error
-  }
-}
-
-const UpdateBook = async (req, res) => {
-  try {
-    let bookId = parseInt(req.params.book_id)
-    let updatedBook = await Book.update(req.body, {
-      where: { id: bookId },
+    let userId = parseInt(req.params.user_id)
+    let updatedUser = await User.update(req.body, {
+      where: { id: userId },
       returning: true
     })
-    res.send(updatedBook)
+    res.send(updatedUser)
   } catch (error) {
     throw error
   }
 }
 
-const DeleteBook = async (req, res) => {
+const DeleteUser = async (req, res) => {
   try {
-    let bookId = parseInt(req.params.book_id)
-    await Book.destroy({ where: { id: bookId } })
-    res.send({ message: `Deleted book with an id of ${bookId}` })
+    let userId = parseInt(req.params.user_id)
+    await User.destroy({ where: { id: userId } })
+    res.send({ message: `Deleted user with an id of ${userId}` })
   } catch (error) {
     throw error
   }
@@ -65,8 +56,7 @@ const DeleteBook = async (req, res) => {
 module.exports = {
   GetUsers,
   GetUserPlants,
-  GetBooks,
-  CreateBook,
-  UpdateBook,
-  DeleteBook
+  CreateUser,
+  UpdateUser,
+  DeleteUser
 }
