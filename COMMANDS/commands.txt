@@ -7,3 +7,4 @@ sequelize db:migrate
 sequelize seed:generate --name users
 sequelize seed:generate --name rooms
 sequelize seed:generate --name plants
+
