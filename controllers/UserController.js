@@ -103,6 +103,7 @@ const DeleteUser = async (req, res) => {
 }
 
 module.exports = {
+  Login,
   GetUsers,
   GetUserPlants,
   RegisterUser,

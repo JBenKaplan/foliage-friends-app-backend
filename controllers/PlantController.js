@@ -21,6 +21,20 @@ const GetPlantByUser = async (req, res) => {
   }
 }
 
+const GetPlantByRoom = async (req, res) => {
+  try {
+    const roomAndPlants = await Plant.findAll(
+      {
+        where: { roomId: req.params.room_id }
+      },
+      { include: Plant }
+    )
+    res.send(roomAndPlants)
+  } catch (error) {
+    throw error
+  }
+}
+
 const CreatePlant = async (req, res) => {
   try {
     let plantBody = { ...req.body }
@@ -57,6 +71,7 @@ const DeletePlant = async (req, res) => {
 module.exports = {
   GetPlants,
   GetPlantByUser,
+  GetPlantByRoom,
   CreatePlant,
   UpdatePlant,
   DeletePlant

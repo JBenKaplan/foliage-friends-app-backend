@@ -4,13 +4,24 @@ const middleware = require('../middleware')
 
 Router.get('/all', controller.GetPlants)
 Router.get('/:user_id/', controller.GetPlantByUser)
+Router.get('/:room_id/', controller.GetPlantByRoom)
 Router.post(
   '/create',
   middleware.stripToken,
   middleware.verifyToken,
   controller.CreatePlant
 )
-Router.put('/', controller.UpdatePlant)
-Router.delete('/:user_id', controller.DeletePlant)
+Router.put(
+  '/updateplant',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.UpdatePlant
+)
+Router.delete(
+  '/:user_id',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.DeletePlant
+)
 
 module.exports = Router
