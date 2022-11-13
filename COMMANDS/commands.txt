@@ -1,10 +1,34 @@
-sequelize model:generate --name User --attributes name:string,email:string,passwordDigest:integer
-sequelize model:generate --name Plant --attributes name:string,type:string,image:string,details:string,userId:integer,roomId:integer
-sequelize model:generate --name Room --attributes name:string,userId:integer
+SET UP DATABASE FROM SCRATCH
+  sequelize db:create
+  sequelize db:migrate
+SEED WITH FALSO
+  sequelize db:seed:all
 
-sequelize db:migrate
+IN PSQL
+  \c foliage_friend_development;
+  SELECT * FROM rooms;
+  SELECT * FROM users;
+  SELECT * FROM plants;
 
-sequelize seed:generate --name users
-sequelize seed:generate --name rooms
-sequelize seed:generate --name plants
+TO DROP DATABASE, YOU CANNOT BE CONNECTED TO THAT DATABASE, SO FIRST CONNECT TO ANOTHER
+  \c auth_development (or any other database you have)
+THEN DROP
+  DROP DATABASE foliage_friend_development;
 
+
+TESTING BELOW
+
+Seed ONLY users, rooms or plants
+  sequelize db:seed --seed seeders/20221110214041-users.js
+  sequelize db:seed --seed seeders/20221110214055-rooms.js
+  sequelize db:seed --seed seeders/20221110214059-plants.js
+
+GENERATE SEED FILES
+  sequelize seed:generate --name users
+  sequelize seed:generate --name rooms
+  sequelize seed:generate --name plants
+
+THESE ARE OUTDATED
+  sequelize model:generate --name User --attributes name:string,email:string,passwordDigest:integer
+  sequelize model:generate --name Plant --attributes name:string,type:string,image:string,details:string,userId:integer,roomId:integer
+  sequelize model:generate --name Room --attributes name:string,userId:integer

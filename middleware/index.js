@@ -27,9 +27,13 @@ const verifyToken = (req, res, next) => {
     if (payload) {
       return next()
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    // res
+    //   .status(401)
+    //   .send({ status: 'Error', msg: 'unverified token Unauthorized' })
   } catch (error) {
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    res
+      .status(401)
+      .send({ status: 'Error', msg: 'Unauthorized: unverified token' })
   }
 }
 
@@ -40,7 +44,7 @@ const stripToken = (req, res, next) => {
       res.locals.token = token
       return next()
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    res.status(401).send({ status: 'Error', msg: 'Unauthorized: no token' })
   } catch (error) {
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   }

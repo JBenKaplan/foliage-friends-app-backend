@@ -18,6 +18,9 @@ module.exports = {
         })
         return {
           name: falso.randMovieCharacter(),
+          type: falso.randIceHockeyTeam(),
+          image: falso.randUrl(),
+          details: falso.randAbbreviation(),
           userId: user.id,
           roomId: room.id,
           createdAt: new Date(),

@@ -49,7 +49,12 @@ const UpdatePassword = async (req, res) => {
       ))
     ) {
       let passwordDigest = await middleware.hashPassword(req.body.newPassword)
-      await user.update({ passwordDigest })
+      // await user.update({ passwordDigest })
+      // TESTING - when using randomly seeded users // when done, switch below to above
+      await user.update({
+        passwordDigest,
+        name: `seeder: pw: ${req.body.newPassword}`
+      })
       return res.send({ status: 'Success', msg: 'Password has been updated!' })
     }
     res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
@@ -86,17 +91,40 @@ const GetUserPlants = async (req, res) => {
     const userWithPlants = await User.findByPk(req.params.user_id, {
       include: Plant
     })
-    res.send(userWithPlants)
+    if (userWithPlants) {
+      return res.send(userWithPlants)
+    }
+    res.status(401).send({ status: 'Error', msg: 'No User found with that id' })
   } catch (error) {
     throw error
   }
 }
 
 const DeleteUser = async (req, res) => {
+  /*
+   expects
+   req.header.authorization = { Bearer: token } //won't get to this point if token is not verified in UserRouter.js
+   req.body = { email: email, password: password }
+  */
+
   try {
-    let userId = parseInt(req.params.user_id)
-    await User.destroy({ where: { id: userId } })
-    res.send({ message: `Deleted user with an id of ${userId}` })
+    const { email, password } = req.body
+    const user = await User.findOne({
+      where: { email }
+    })
+    if (
+      user &&
+      (await middleware.comparePassword(
+        user.dataValues.passwordDigest,
+        password
+      ))
+    ) {
+      await User.destroy({ where: { email } }) // or where : { id: user.id }
+      // res.send({ message: `Deleted user with an email of: ${email}` })
+      return res.send({ message: `Deleted user` })
+    }
+    res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
+    // let userId = parseInt(req.params.user_id)
   } catch (error) {
     throw error
   }

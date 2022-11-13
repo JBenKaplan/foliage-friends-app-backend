@@ -11,7 +11,10 @@ const GetRooms = async (req, res) => {
 
 const CreateRoom = async (req, res) => {
   try {
-    let roomBody = { ...req.body }
+    // const { name, userId } = req.body // JAL version - same?
+    let roomBody = { ...req.body } // JBK version - same?
+    // how do we ensure that the userId matches the current token?
+
     let room = await Room.create(roomBody)
     res.send(room)
   } catch (error) {

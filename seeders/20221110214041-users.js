@@ -1,18 +1,25 @@
 'use strict'
 const falso = require('@ngneat/falso')
-/** @type {import('sequelize-cli').Migration} */
+const middleware = require('../middleware')
 
-const users = [...Array(10)].map(() => ({
-  name: falso.randFullName(),
-  email: falso.randEmail(),
-  password: falso.randShape(),
-  createdAt: new Date(),
-  updatedAt: new Date()
-}))
+/** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('users', users)
+    const users = await Promise.all(
+      [...Array(10)].map(async () => {
+        let password = falso.randShape()
+        let passwordDigest = await middleware.hashPassword(password)
+        return {
+          name: `seeder: pw: ${password}`,
+          email: falso.randEmail(),
+          passwordDigest,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      })
+    )
+    await queryInterface.bulkInsert('users', users)
   },
 
   down: async (queryInterface, Sequelize) => {

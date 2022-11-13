@@ -13,12 +13,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   Plant.init(
     {
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       type: DataTypes.STRING,
       image: DataTypes.STRING,
       details: DataTypes.STRING,
       userId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {
           model: 'users',
@@ -27,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       roomId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {
           model: 'rooms',
