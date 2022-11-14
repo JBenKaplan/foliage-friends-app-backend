@@ -19,7 +19,7 @@ const Login = async (req, res) => {
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
+    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {
     throw error
   }
@@ -38,29 +38,26 @@ const RegisterUser = async (req, res) => {
 
 const UpdatePassword = async (req, res) => {
   try {
-    const user = await User.findOne({
-      where: { email: req.body.email }
-    })
+    const { oldPassword, newPassword } = req.body
+    const user = await User.findByPk(req.params.user_id)
     if (
       user &&
       (await middleware.comparePassword(
         user.dataValues.passwordDigest,
-        req.body.oldPassword
+        oldPassword
       ))
     ) {
-      let passwordDigest = await middleware.hashPassword(req.body.newPassword)
-      // await user.update({ passwordDigest })
-      // TESTING - when using randomly seeded users // when done, switch below to above
-      await user.update({
-        passwordDigest,
-        name: `seeder: pw: ${req.body.newPassword}`
-      })
-      return res.send({ status: 'Success', msg: 'Password has been updated!' })
+      let passwordDigest = await middleware.hashPassword(newPassword)
+      await user.update({ passwordDigest })
+      return res.send({ status: 'Ok', payload: user })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
-  } catch (error) {
-    throw error
-  }
+    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+  } catch (error) {}
+}
+
+const CheckSession = async (req, res) => {
+  const { payload } = res.locals
+  res.send(payload)
 }
 
 //User Controllers
@@ -87,14 +84,27 @@ const GetUsers = async (req, res) => {
 }
 
 const GetUserPlants = async (req, res) => {
+  // req.header.authorization = { Bearer: token }
+  // req.body = { email: email, password: password }
   try {
-    const userWithPlants = await User.findByPk(req.params.user_id, {
-      include: Plant
-    })
-    if (userWithPlants) {
-      return res.send(userWithPlants)
-    }
-    res.status(401).send({ status: 'Error', msg: 'No User found with that id' })
+    // const { email, password } = req.body
+    // const user = await User.findOne({ where: { email } })
+    // if (
+    //   user &&
+    //   (await middleware.comparePassword(
+    //     user.dataValues.passwordDigest,
+    //     password
+    //   ))
+    // ) {
+    //   const userPlants = await User.findAll(
+    //     { where: { email } },
+    //     { include: Plant }
+    //   )
+    //   return res.send(userPlants)
+    // }
+    // res.status(401).send({ status: 'Error', msg: 'No User found with that id' })
+    const userPlants = await Plant.findAll()
+    res.send(userPlants)
   } catch (error) {
     throw error
   }
@@ -137,5 +147,6 @@ module.exports = {
   RegisterUser,
   UpdatePassword,
   UpdateUser,
-  DeleteUser
+  DeleteUser,
+  CheckSession
 }
