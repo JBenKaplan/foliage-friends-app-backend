@@ -19,25 +19,25 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: DataTypes.STRING,
       image: DataTypes.STRING,
-      details: DataTypes.STRING,
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'users',
-          key: 'id'
-        }
-      },
-      roomId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'rooms',
-          key: 'id'
-        }
-      }
+      details: DataTypes.STRING
+      // userId: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   onDelete: 'CASCADE',
+      //   references: {
+      //     model: 'users',
+      //     key: 'id'
+      //   }
+      // },
+      // roomId: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   onDelete: 'CASCADE',
+      //   references: {
+      //     model: 'rooms',
+      //     key: 'id'
+      //   }
+      // }
     },
     {
       sequelize,
