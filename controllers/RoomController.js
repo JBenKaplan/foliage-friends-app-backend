@@ -11,7 +11,11 @@ const GetRooms = async (req, res) => {
 
 const GetUserRooms = async (req, res) => {
   try {
-    const room = await Room.findAll({ where: { userId: 1 } })
+    const room = await Room.findAll({
+      where: {
+        userId: req.params.user_id
+      }
+    })
     res.send(room)
   } catch (error) {
     throw error
