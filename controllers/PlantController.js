@@ -37,8 +37,9 @@ const GetPlantByRoom = async (req, res) => {
 
 const CreatePlant = async (req, res) => {
   try {
-    let plantBody = { ...req.body }
-    let plant = await Plant.create(plantBody)
+    const { name, roomId, userId, details, image } = req.body.plantFormValues
+    console.log(req.body.plantFormValues)
+    let plant = await Plant.create({ name, roomId, userId, details, image })
     res.send(plant)
   } catch (error) {
     throw error
