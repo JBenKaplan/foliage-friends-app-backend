@@ -2,7 +2,6 @@ const Router = require('express').Router()
 const controller = require('../controllers/UserController')
 const middleware = require('../middleware')
 
-//TESTING ROUTE
 Router.get('/all', controller.GetUsers)
 
 Router.post('/login', controller.Login)
@@ -29,6 +28,11 @@ Router.delete(
   controller.DeleteUser
 )
 
-Router.get('/session', controller.CheckSession)
+Router.get(
+  '/session',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.CheckSession
+)
 
 module.exports = Router
