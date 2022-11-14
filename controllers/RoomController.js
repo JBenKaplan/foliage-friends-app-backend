@@ -9,13 +9,20 @@ const GetRooms = async (req, res) => {
   }
 }
 
+const GetUserRooms = async (req, res) => {
+  try {
+    const room = await Room.findAll({ where: { userId: 1 } })
+    res.send(room)
+  } catch (error) {
+    throw error
+  }
+}
+
 const CreateRoom = async (req, res) => {
   try {
-    // const { name, userId } = req.body // JAL version - same?
-    let roomBody = { ...req.body } // JBK version - same?
-    // how do we ensure that the userId matches the current token?
-
-    let room = await Room.create(roomBody)
+    const { name, userId } = req.body.room
+    console.log(req.body)
+    let room = await Room.create({ name, userId })
     res.send(room)
   } catch (error) {
     throw error
@@ -47,6 +54,7 @@ const DeleteRoom = async (req, res) => {
 
 module.exports = {
   GetRooms,
+  GetUserRooms,
   CreateRoom,
   UpdateRoom,
   DeleteRoom
