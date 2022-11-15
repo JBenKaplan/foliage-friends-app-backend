@@ -35,15 +35,6 @@ const GetRoomById = async (req, res) => {
   }
 }
 
-const GetRoomById = async (req, res) => {
-  try {
-    const room = await Room.findOne({ where: { id: req.params.room_id } })
-    res.send(room)
-  } catch (error) {
-    error
-  }
-}
-
 const CreateRoom = async (req, res) => {
   try {
     const { name, userId } = req.body.room
@@ -79,7 +70,6 @@ const DeleteRoom = async (req, res) => {
 }
 
 module.exports = {
-
   GetAllRooms,
   GetRoomsByUser,
 
