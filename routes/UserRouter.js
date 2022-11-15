@@ -15,10 +15,10 @@ Router.get(
 Router.post('/register', controller.RegisterUser)
 
 Router.put(
-  '/updatepassword',
+  '/update',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.UpdatePassword
+  controller.UpdateUser
 )
 
 Router.delete(

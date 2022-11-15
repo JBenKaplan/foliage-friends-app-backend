@@ -36,6 +36,12 @@ const RegisterUser = async (req, res) => {
   }
 }
 
+const CheckSession = async (req, res) => {
+  const { payload } = res.locals
+  res.send(payload)
+}
+
+//User Controllers
 const UpdatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body
@@ -54,21 +60,44 @@ const UpdatePassword = async (req, res) => {
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {}
 }
-
-const CheckSession = async (req, res) => {
-  const { payload } = res.locals
-  res.send(payload)
-}
-
-//User Controllers
 const UpdateUser = async (req, res) => {
+  // this function will handle ALL user update requests (name, email, pw... all confirmed with current pw)
   try {
-    let userId = parseInt(req.params.user_id)
-    let updatedUser = await User.update(req.body, {
-      where: { id: userId },
-      returning: true
-    })
-    res.send(updatedUser)
+    console.log(req.body.updateFormValues)
+    const { name, email, newPassword, password } = req.body.updateFormValues
+    let userId = parseInt(req.body.updateFormValues.userId)
+    //confirm password
+    const user = await User.findByPk(userId)
+    if (
+      user &&
+      (await middleware.comparePassword(
+        user.dataValues.passwordDigest,
+        password
+      ))
+    ) {
+      //do things here, if password was confirmed
+      //set update body
+      let updateBody = {}
+      if (name) {
+        updateBody.name = name
+      }
+      if (email) {
+        updateBody.email = email
+      }
+      if (newPassword) {
+        let passwordDigest = await middleware.hashPassword(newPassword)
+        updateBody.passwordDigest = passwordDigest
+      }
+      //send the update request
+      let updatedUser = await User.update(updateBody, {
+        where: { id: userId },
+        returning: true
+      })
+      return res.send(updatedUser)
+    }
+    res
+      .status(401)
+      .send({ status: 'Error', msg: 'password does not stored password' })
   } catch (error) {
     throw error
   }
