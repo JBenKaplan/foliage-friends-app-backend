@@ -26,7 +26,7 @@ const GetRoomById = async (req, res) => {
   try {
     let roomId = parseInt(req.params.room_id)
     const roomById = await Room.findAll({
-      where: { roomId },
+      where: { id: roomId },
       include: User
     })
     res.send(roomById)
