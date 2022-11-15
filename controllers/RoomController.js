@@ -26,21 +26,12 @@ const GetRoomById = async (req, res) => {
   try {
     let roomId = parseInt(req.params.room_id)
     const roomById = await Room.findAll({
-      where: { roomId },
+      where: { id: roomId },
       include: User
     })
     res.send(roomById)
   } catch (error) {
     throw error
-  }
-}
-
-const GetRoomById = async (req, res) => {
-  try {
-    const room = await Room.findOne({ where: { id: req.params.room_id } })
-    res.send(room)
-  } catch (error) {
-    error
   }
 }
 
@@ -79,10 +70,8 @@ const DeleteRoom = async (req, res) => {
 }
 
 module.exports = {
-
   GetAllRooms,
   GetRoomsByUser,
-
   GetRoomById,
   CreateRoom,
   UpdateRoom,

@@ -2,25 +2,28 @@ const Router = require('express').Router()
 const controller = require('../controllers/PlantController.js')
 const middleware = require('../middleware')
 
-
 Router.get('/all', controller.GetAllPlants) // testing route
-
 
 Router.get(
   '/user/:user_id/',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.GetPlantByUser
+  controller.GetAllPlantByUser
 )
 
 Router.get(
   '/room/:room_id/',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.GetPlantByRoom
+  controller.GetAllPlantByRoom
 )
 
-Router.get('/plant/:plant_id/', middleware.stripToken, middleware.verifyToken, controller.GetPlantById)
+Router.get(
+  '/plant/:plant_id/',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.GetPlantById
+)
 
 Router.post(
   '/create',
