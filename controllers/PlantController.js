@@ -11,10 +11,16 @@ const GetPlants = async (req, res) => {
 
 const GetPlantById = async (req, res) => {
   try {
-    let plantId = parseInt(req.params.plant_id)
-    let plant = await Plant.findAll(
-      { where: { plantId } },
-      { include: User, include: Room }
+    console.log(req.params)
+    let id = parseInt(req.params.plant_id)
+    let plant = await Plant.findOne(
+      {
+        where: { id },
+        include: [User, Room]
+        // include: User
+      }
+      // { include: { User, Room } }
+      // { include: Room }
     )
     res.send(plant)
   } catch (error) {
