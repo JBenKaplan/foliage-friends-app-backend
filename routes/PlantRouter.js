@@ -5,6 +5,7 @@ const middleware = require('../middleware')
 Router.get('/all', controller.GetPlants)
 Router.get('/:user_id/', controller.GetPlantByUser)
 Router.get('/:room_id/', controller.GetPlantByRoom)
+Router.get('/:plant_id/', controller.GetPlantById)
 Router.post(
   '/create',
   middleware.stripToken,

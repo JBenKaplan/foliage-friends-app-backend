@@ -36,6 +36,12 @@ const RegisterUser = async (req, res) => {
   }
 }
 
+const CheckSession = async (req, res) => {
+  const { payload } = res.locals
+  res.send(payload)
+}
+
+//User Controllers
 const UpdatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body
@@ -54,21 +60,44 @@ const UpdatePassword = async (req, res) => {
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {}
 }
-
-const CheckSession = async (req, res) => {
-  const { payload } = res.locals
-  res.send(payload)
-}
-
-//User Controllers
 const UpdateUser = async (req, res) => {
+  // this function will handle ALL user update requests (name, email, pw... all confirmed with current pw)
   try {
-    let userId = parseInt(req.params.user_id)
-    let updatedUser = await User.update(req.body, {
-      where: { id: userId },
-      returning: true
-    })
-    res.send(updatedUser)
+    console.log(req.body.updateFormValues)
+    const { name, email, newPassword, password } = req.body.updateFormValues
+    let userId = parseInt(req.body.updateFormValues.userId)
+    //confirm password
+    const user = await User.findByPk(userId)
+    if (
+      user &&
+      (await middleware.comparePassword(
+        user.dataValues.passwordDigest,
+        password
+      ))
+    ) {
+      //do things here, if password was confirmed
+      //set update body
+      let updateBody = {}
+      if (name) {
+        updateBody.name = name
+      }
+      if (email) {
+        updateBody.email = email
+      }
+      if (newPassword) {
+        let passwordDigest = await middleware.hashPassword(newPassword)
+        updateBody.passwordDigest = passwordDigest
+      }
+      //send the update request
+      let updatedUser = await User.update(updateBody, {
+        where: { id: userId },
+        returning: true
+      })
+      return res.send(updatedUser)
+    }
+    res
+      .status(401)
+      .send({ status: 'Error', msg: 'password does not stored password' })
   } catch (error) {
     throw error
   }
@@ -114,27 +143,15 @@ const DeleteUser = async (req, res) => {
   /*
    expects
    req.header.authorization = { Bearer: token } //won't get to this point if token is not verified in UserRouter.js
-   req.body = { email: email, password: password }
+   // wanted to use: req.body = { email: email, password: password }, but Delete requests do NOT carry req.body. must come in through req.params (or req.query?)
   */
-
   try {
-    const { email, password } = req.body
-    const user = await User.findOne({
-      where: { email }
+    let userId = parseInt(req.params.user_id)
+    await User.destroy({ where: { id: userId } })
+    //this should cascase to all the users plants and rooms, but it didn't.... hmm... could add another couple lines of code here to clean up the plants and rooms.
+    res.send({
+      message: `Deletion Confirmed: Plant: ${userId}`
     })
-    if (
-      user &&
-      (await middleware.comparePassword(
-        user.dataValues.passwordDigest,
-        password
-      ))
-    ) {
-      await User.destroy({ where: { email } }) // or where : { id: user.id }
-      // res.send({ message: `Deleted user with an email of: ${email}` })
-      return res.send({ message: `Deleted user` })
-    }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
-    // let userId = parseInt(req.params.user_id)
   } catch (error) {
     throw error
   }
