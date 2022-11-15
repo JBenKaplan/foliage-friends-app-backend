@@ -114,27 +114,15 @@ const DeleteUser = async (req, res) => {
   /*
    expects
    req.header.authorization = { Bearer: token } //won't get to this point if token is not verified in UserRouter.js
-   req.body = { email: email, password: password }
+   // wanted to use: req.body = { email: email, password: password }, but Delete requests do NOT carry req.body. must come in through req.params (or req.query?)
   */
-
   try {
-    const { email, password } = req.body
-    const user = await User.findOne({
-      where: { email }
+    let userId = parseInt(req.params.user_id)
+    await User.destroy({ where: { id: userId } })
+    //this should cascase to all the users plants and rooms, but it didn't.... hmm... could add another couple lines of code here to clean up the plants and rooms.
+    res.send({
+      message: `Deletion Confirmed: Plant: ${userId}`
     })
-    if (
-      user &&
-      (await middleware.comparePassword(
-        user.dataValues.passwordDigest,
-        password
-      ))
-    ) {
-      await User.destroy({ where: { email } }) // or where : { id: user.id }
-      // res.send({ message: `Deleted user with an email of: ${email}` })
-      return res.send({ message: `Deleted user` })
-    }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized!' })
-    // let userId = parseInt(req.params.user_id)
   } catch (error) {
     throw error
   }
