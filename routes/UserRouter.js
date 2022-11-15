@@ -21,7 +21,7 @@ Router.put(
 )
 
 Router.delete(
-  '/delete/:user_id',
+  '/user/:user_id',
   middleware.stripToken,
   middleware.verifyToken,
   controller.DeleteUser

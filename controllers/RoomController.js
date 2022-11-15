@@ -1,6 +1,6 @@
 const { User, Room, Plant } = require('../models')
 
-const GetRooms = async (req, res) => {
+const GetAllRooms = async (req, res) => {
   try {
     const room = await Room.findAll()
     res.send(room)
@@ -9,14 +9,27 @@ const GetRooms = async (req, res) => {
   }
 }
 
-const GetUserRooms = async (req, res) => {
+const GetRoomsByUser = async (req, res) => {
   try {
-    const room = await Room.findAll({
-      where: {
-        userId: req.params.user_id
-      }
+    let userId = parseInt(req.params.user_id)
+    const roomsByUser = await Room.findAll({
+      where: { userId },
+      include: User
     })
-    res.send(room)
+    res.send(roomsByUser)
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetRoomById = async (req, res) => {
+  try {
+    let roomId = parseInt(req.params.room_id)
+    const roomById = await Room.findAll({
+      where: { roomId },
+      include: User
+    })
+    res.send(roomById)
   } catch (error) {
     throw error
   }
@@ -25,7 +38,7 @@ const GetUserRooms = async (req, res) => {
 const CreateRoom = async (req, res) => {
   try {
     const { name, userId } = req.body.room
-    console.log(req.body)
+    // console.log(req.body)
     let room = await Room.create({ name, userId })
     res.send(room)
   } catch (error) {
@@ -36,7 +49,7 @@ const CreateRoom = async (req, res) => {
 const UpdateRoom = async (req, res) => {
   try {
     let roomId = parseInt(req.params.room_id)
-    let updatedRoom = await Room.update(req.body, {
+    let updatedRoom = await Room.update(req.body.roomForm, {
       where: { id: roomId },
       returning: true
     })
@@ -57,8 +70,9 @@ const DeleteRoom = async (req, res) => {
 }
 
 module.exports = {
-  GetRooms,
-  GetUserRooms,
+  GetAllRooms,
+  GetRoomsByUser,
+  GetRoomById,
   CreateRoom,
   UpdateRoom,
   DeleteRoom

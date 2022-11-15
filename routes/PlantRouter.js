@@ -13,7 +13,7 @@ Router.post(
   controller.CreatePlant
 )
 Router.put(
-  '/updateplant',
+  '/update',
   middleware.stripToken,
   middleware.verifyToken,
   controller.UpdatePlant
