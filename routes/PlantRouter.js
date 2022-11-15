@@ -2,7 +2,7 @@ const Router = require('express').Router()
 const controller = require('../controllers/PlantController.js')
 const middleware = require('../middleware')
 
-Router.get('/all', controller.GetAllPlants)
+Router.get('/all', controller.GetAllPlants) // testing route
 Router.get('/plant/:plant_id/', controller.GetPlantById)
 Router.get('/room/:room_id/', controller.GetAllPlantsByRoom)
 Router.get('/user/:user_id/', controller.GetAllPlantsByUser)

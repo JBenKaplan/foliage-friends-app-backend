@@ -2,17 +2,16 @@ const Router = require('express').Router()
 const controller = require('../controllers/UserController')
 const middleware = require('../middleware')
 
-Router.get('/all', controller.GetUsers)
+Router.get('/all', controller.GetAllUsers) // testing route
 
+Router.post('/register', controller.RegisterUser)
 Router.post('/login', controller.Login)
-
 Router.get(
-  '/plants',
+  '/session',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.GetUserPlants
+  controller.CheckSession
 )
-Router.post('/register', controller.RegisterUser)
 
 Router.put(
   '/update',
@@ -26,13 +25,6 @@ Router.delete(
   middleware.stripToken,
   middleware.verifyToken,
   controller.DeleteUser
-)
-
-Router.get(
-  '/session',
-  middleware.stripToken,
-  middleware.verifyToken,
-  controller.CheckSession
 )
 
 module.exports = Router
