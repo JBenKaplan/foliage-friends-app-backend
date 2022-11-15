@@ -42,24 +42,24 @@ const CheckSession = async (req, res) => {
 }
 
 //User Controllers
-const UpdatePassword = async (req, res) => {
-  try {
-    const { oldPassword, newPassword } = req.body
-    const user = await User.findByPk(req.params.user_id)
-    if (
-      user &&
-      (await middleware.comparePassword(
-        user.dataValues.passwordDigest,
-        oldPassword
-      ))
-    ) {
-      let passwordDigest = await middleware.hashPassword(newPassword)
-      await user.update({ passwordDigest })
-      return res.send({ status: 'Ok', payload: user })
-    }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
-  } catch (error) {}
-}
+// const UpdatePassword = async (req, res) => {
+//   try {
+//     const { oldPassword, newPassword } = req.body
+//     const user = await User.findByPk(req.params.user_id)
+//     if (
+//       user &&
+//       (await middleware.comparePassword(
+//         user.dataValues.passwordDigest,
+//         oldPassword
+//       ))
+//     ) {
+//       let passwordDigest = await middleware.hashPassword(newPassword)
+//       await user.update({ passwordDigest })
+//       return res.send({ status: 'Ok', payload: user })
+//     }
+//     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+//   } catch (error) {}
+// }
 const UpdateUser = async (req, res) => {
   // this function will handle ALL user update requests (name, email, pw... all confirmed with current pw)
   try {
@@ -162,7 +162,7 @@ module.exports = {
   GetUsers,
   GetUserPlants,
   RegisterUser,
-  UpdatePassword,
+  // UpdatePassword,
   UpdateUser,
   DeleteUser,
   CheckSession
