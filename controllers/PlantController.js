@@ -42,6 +42,7 @@ const GetPlantByUser = async (req, res) => {
 
 const GetPlantByRoom = async (req, res) => {
   try {
+    console.log('test')
     const roomAndPlants = await Plant.findAll(
       {
         where: { roomId: req.params.room_id }

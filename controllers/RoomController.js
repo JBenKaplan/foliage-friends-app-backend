@@ -22,6 +22,15 @@ const GetUserRooms = async (req, res) => {
   }
 }
 
+const GetRoomById = async (req, res) => {
+  try {
+    const room = await Room.findOne({ where: { id: req.params.room_id } })
+    res.send(room)
+  } catch (error) {
+    error
+  }
+}
+
 const CreateRoom = async (req, res) => {
   try {
     const { name, userId } = req.body.room
@@ -36,7 +45,7 @@ const CreateRoom = async (req, res) => {
 const UpdateRoom = async (req, res) => {
   try {
     let roomId = parseInt(req.params.room_id)
-    let updatedRoom = await Room.update(req.body, {
+    let updatedRoom = await Room.update(req.body.roomForm, {
       where: { id: roomId },
       returning: true
     })
@@ -59,6 +68,7 @@ const DeleteRoom = async (req, res) => {
 module.exports = {
   GetRooms,
   GetUserRooms,
+  GetRoomById,
   CreateRoom,
   UpdateRoom,
   DeleteRoom
