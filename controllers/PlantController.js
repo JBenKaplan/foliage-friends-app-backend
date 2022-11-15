@@ -9,6 +9,25 @@ const GetPlants = async (req, res) => {
   }
 }
 
+const GetPlantById = async (req, res) => {
+  try {
+    console.log(req.params)
+    let id = parseInt(req.params.plant_id)
+    let plant = await Plant.findOne(
+      {
+        where: { id },
+        include: [User, Room]
+        // include: User
+      }
+      // { include: { User, Room } }
+      // { include: Room }
+    )
+    res.send(plant)
+  } catch (error) {
+    throw error
+  }
+}
+
 const GetPlantByUser = async (req, res) => {
   try {
     const userAndPlants = await Plant.findAll(
@@ -72,6 +91,7 @@ const DeletePlant = async (req, res) => {
 
 module.exports = {
   GetPlants,
+  GetPlantById,
   GetPlantByUser,
   GetPlantByRoom,
   CreatePlant,

@@ -3,19 +3,22 @@ const controller = require('../controllers/PlantController.js')
 const middleware = require('../middleware')
 
 Router.get('/all', controller.GetPlants)
+
 Router.get(
-  '/:user_id/',
+  '/user/:user_id/',
   middleware.stripToken,
   middleware.verifyToken,
   controller.GetPlantByUser
 )
 
 Router.get(
-  '/:room_id/',
+  '/room/:room_id/',
   middleware.stripToken,
   middleware.verifyToken,
   controller.GetPlantByRoom
 )
+
+Router.get('/plant/:plant_id/', middleware.stripToken, middleware.verifyToken, controller.GetPlantById)
 
 Router.post(
   '/create',
