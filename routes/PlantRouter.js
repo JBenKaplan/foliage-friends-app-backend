@@ -2,10 +2,10 @@ const Router = require('express').Router()
 const controller = require('../controllers/PlantController.js')
 const middleware = require('../middleware')
 
-Router.get('/all', controller.GetPlants)
-Router.get('/:user_id/', controller.GetPlantByUser)
-Router.get('/roomid/:room_id/', controller.GetPlantByRoom)
-Router.get('/plantid/:plant_id/', controller.GetPlantById)
+Router.get('/all', controller.GetAllPlants)
+Router.get('/plant/:plant_id/', controller.GetPlantById)
+Router.get('/room/:room_id/', controller.GetAllPlantsByRoom)
+Router.get('/user/:user_id/', controller.GetAllPlantsByUser)
 Router.post(
   '/create',
   middleware.stripToken,
@@ -19,7 +19,7 @@ Router.put(
   controller.UpdatePlant
 )
 Router.delete(
-  '/:user_id',
+  'plant/:plant_id',
   middleware.stripToken,
   middleware.verifyToken,
   controller.DeletePlant
