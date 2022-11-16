@@ -8,14 +8,16 @@ Router.get(
   '/user/:user_id/',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.GetAllPlantByUser
+
+  controller.GetAllPlantsByUser
 )
 
 Router.get(
   '/room/:room_id/',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.GetAllPlantByRoom
+
+  controller.GetAllPlantsByRoom
 )
 
 Router.get(

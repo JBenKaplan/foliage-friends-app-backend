@@ -48,7 +48,7 @@ const CreateRoom = async (req, res) => {
 
 const UpdateRoom = async (req, res) => {
   try {
-    let roomId = parseInt(req.params.room_id)
+    let roomId = parseInt(req.body.roomForm.roomId)
     let updatedRoom = await Room.update(req.body.roomForm, {
       where: { id: roomId },
       returning: true
