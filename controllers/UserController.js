@@ -100,7 +100,9 @@ const UpdateUser = async (req, res) => {
 const DeleteUser = async (req, res) => {
   try {
     let userId = parseInt(req.params.user_id)
-    await User.destroy({ where: { id: userId } })
+    // await User.destroy({ where: { id: userId } })
+    let user = await User.findOne({ where: { id: userId } })
+    await user.destroy()
     //this should cascade to all the users plants and rooms, but it didn't.... hmm... could add another couple lines of code here to clean up the plants and rooms.
     res.send({
       message: `Deletion Confirmed: User: ${userId}`
