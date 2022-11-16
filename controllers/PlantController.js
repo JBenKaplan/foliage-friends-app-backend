@@ -37,14 +37,12 @@ const GetAllPlantsByRoom = async (req, res) => {
 
 const GetAllPlantsByUser = async (req, res) => {
   try {
-
     let userId = parseInt(req.params.user_id)
     const plantsByUser = await Plant.findAll({
       where: { userId },
       include: [User, Room]
     })
     res.send(plantsByUser)
-
   } catch (error) {
     throw error
   }
@@ -77,10 +75,13 @@ const UpdatePlant = async (req, res) => {
 
 const DeletePlant = async (req, res) => {
   try {
+    // console.log(req)
     let plantId = parseInt(req.params.plant_id)
+    console.log(plantId)
     await Plant.destroy({ where: { id: plantId } })
     res.send({ message: `Deleted plant with an id of ${plantId}` })
   } catch (error) {
+    console.log('hello there')
     throw error
   }
 }
