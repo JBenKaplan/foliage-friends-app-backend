@@ -62,7 +62,8 @@ const UpdateRoom = async (req, res) => {
 const DeleteRoom = async (req, res) => {
   try {
     let roomId = parseInt(req.params.room_id)
-    await Room.destroy({ where: { id: roomId } })
+    let room = await Room.findOne({ where: { id: roomId } })
+    await room.destroy()
     res.send({ message: `Deleted room with an id of ${roomId}` })
   } catch (error) {
     throw error
