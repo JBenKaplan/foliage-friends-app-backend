@@ -75,13 +75,10 @@ const UpdatePlant = async (req, res) => {
 
 const DeletePlant = async (req, res) => {
   try {
-    // console.log(req)
     let plantId = parseInt(req.params.plant_id)
-    console.log(plantId)
     await Plant.destroy({ where: { id: plantId } })
     res.send({ message: `Deleted plant with an id of ${plantId}` })
   } catch (error) {
-    console.log('hello there')
     throw error
   }
 }
