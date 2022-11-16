@@ -40,7 +40,7 @@ Router.put(
 )
 
 Router.delete(
-  'plant/:plant_id',
+  '/plant/:plant_id',
   middleware.stripToken,
   middleware.verifyToken,
   controller.DeletePlant
