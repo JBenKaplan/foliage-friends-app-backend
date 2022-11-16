@@ -11,6 +11,7 @@ const GetAllPlants = async (req, res) => {
 
 const GetPlantById = async (req, res) => {
   try {
+    console.log('API get plant by id')
     let plantId = parseInt(req.params.plant_id)
     let plant = await Plant.findOne({
       where: { id: plantId },
@@ -37,14 +38,12 @@ const GetAllPlantsByRoom = async (req, res) => {
 
 const GetAllPlantsByUser = async (req, res) => {
   try {
-
     let userId = parseInt(req.params.user_id)
     const plantsByUser = await Plant.findAll({
       where: { userId },
       include: [User, Room]
     })
     res.send(plantsByUser)
-
   } catch (error) {
     throw error
   }
