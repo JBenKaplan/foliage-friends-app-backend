@@ -34,7 +34,8 @@ const Login = async (req, res) => {
     ) {
       let payload = {
         id: user.id,
-        email: user.email
+        email: user.email,
+        name: user.name
       }
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
@@ -50,12 +51,11 @@ const CheckSession = async (req, res) => {
   res.send(payload)
 }
 
-//User Controllers
 // Update User handles ALL update requests (including password changes), and must be confirmed by current password
 const UpdateUser = async (req, res) => {
   try {
-    const { name, email, newPassword, password } = req.body.updateFormValues
-    let userId = parseInt(req.body.updateFormValues.userId)
+    // console.log(req.body)
+    const { name, email, newPassword, password, userId } = req.body
 
     //confirm password
     const user = await User.findByPk(userId)
@@ -79,16 +79,19 @@ const UpdateUser = async (req, res) => {
         updateBody.passwordDigest = passwordDigest
       }
       //send the update request
-      let updatedUser = await User.update(updateBody, {
+      let updateConfirm = await User.update(updateBody, {
         where: { id: userId },
         returning: true
       })
-      return res.send(updatedUser)
+      console.log(updateConfirm)
+      return res.send(updateConfirm)
     }
+    console.log('C')
     res
       .status(401)
       .send({ status: 'Error', msg: 'password does not stored password' })
   } catch (error) {
+    // console.log('D')
     throw error
   }
 }
