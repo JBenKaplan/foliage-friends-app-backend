@@ -14,11 +14,15 @@ const GetAllUsers = async (req, res) => {
 const RegisterUser = async (req, res) => {
   try {
     const { email, password, name } = req.body
-    let passwordDigest = await middleware.hashPassword(password)
-    const user = await User.create({ email, passwordDigest, name })
-    res.send(user)
+    let userExists = await User.findOne({ where: { email } })
+    if (userExists) {
+      return res.send(`That Email (${email}) Already Exists`)
+    } else {
+      let passwordDigest = await middleware.hashPassword(password)
+      const user = await User.create({ email, passwordDigest, name })
+      res.send(user)
+    }
   } catch (error) {
-    res.send('That Email Already Exists')
     throw error
   }
 }
