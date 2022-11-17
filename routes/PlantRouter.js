@@ -33,7 +33,7 @@ Router.post(
 )
 
 Router.put(
-  '/update',
+  '/update/:plant_id',
   middleware.stripToken,
   middleware.verifyToken,
   controller.UpdatePlant
