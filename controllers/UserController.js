@@ -1,5 +1,6 @@
 const { User, Plant } = require('../models')
 const middleware = require('../middleware')
+const validator = require('email-validator')
 
 const GetAllUsers = async (req, res) => {
   try {
@@ -16,11 +17,17 @@ const RegisterUser = async (req, res) => {
     const { email, password, name } = req.body
     let userExists = await User.findOne({ where: { email } })
     if (userExists) {
-      return res.send(`That Email (${email}) Already Exists`)
+      return res.send(`That Email Already Exists`)
     } else {
-      let passwordDigest = await middleware.hashPassword(password)
-      const user = await User.create({ email, passwordDigest, name })
-      res.send(user)
+      let validEmail = validator.validate(email)
+      console.log(validEmail)
+      if (!validEmail) {
+        return res.send(`Invalid Email Format`)
+      } else {
+        let passwordDigest = await middleware.hashPassword(password)
+        const user = await User.create({ email, passwordDigest, name })
+        res.send(user)
+      }
     }
   } catch (error) {
     throw error
