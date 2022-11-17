@@ -18,7 +18,9 @@ const RegisterUser = async (req, res) => {
     const user = await User.create({ email, passwordDigest, name })
     res.send(user)
   } catch (error) {
-    res.send('Register User Error')
+    res.send('That Email Already')
+    res.send(error)
+    res.send(error.message)
     console.log('B')
     throw error
   }
