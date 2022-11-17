@@ -11,6 +11,7 @@ const GetAllPlants = async (req, res) => {
 
 const GetPlantById = async (req, res) => {
   try {
+    console.log('API get plant by id')
     let plantId = parseInt(req.params.plant_id)
     let plant = await Plant.findOne({
       where: { id: plantId },
