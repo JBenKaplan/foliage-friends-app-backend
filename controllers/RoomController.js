@@ -37,7 +37,7 @@ const GetRoomById = async (req, res) => {
 
 const CreateRoom = async (req, res) => {
   try {
-    const { name, userId } = req.body.room
+    const { name, userId } = req.body.formValues
     // console.log(req.body)
     let room = await Room.create({ name, userId })
     res.send(room)
