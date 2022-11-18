@@ -4,7 +4,7 @@
 
 ### Mari Dilig <br />
 
-[Github]() | [LinkedIn]() <br />
+[Github](https://github.com/maripd) | [LinkedIn](https://www.linkedin.com/in/marissa-dilig/) <br />
 
 ### Ben Kaplan <br />
 
@@ -18,15 +18,21 @@
 
 ---
 
+![Login](/assets/folige-friends-login.png)
+![Plantgallery](/assets/foliage-friends-plantgallery.png)
+![Mobile](/assets/foliage-friends-mobile.png)
+
+---
+
 ## Overview
 
 ---
 
-This application will allow you to setup rooms and add in your leafy green friends to keep track of them and how they're doing.
+This application will allow you to setup rooms and add in your leafy green friends to keep track of them.
 
 You can find our development progress in our [Trello](https://trello.com/b/gHbLKWLd/foliage-friends-say-aloe-to-my-little-friends).
 
-To use our app, follow the [link]() to our full deployed site.
+To use our app, follow the [link](https://foliage-friends.herokuapp.com/) to our deployed site.
 
 ## Getting Started
 
@@ -39,13 +45,19 @@ To use our app, follow the [link]() to our full deployed site.
 - Associations between models are
   - User hasMany Plants and hasMany Rooms
   - Plant belongsTo Room and belongsTo User
-  - Room belongsTo User and hasMany Plant
+  - Room belongsTo User and hasMany Plants
 
 ## Technologies Used
 
 ---
 
-- Development
+- Frontend Development
+  - HTML
+  - CSS
+  - JS
+  - React
+  - Node JS
+- Backend Development
   - Postgresql
   - Sequelize
   - Express
@@ -56,7 +68,13 @@ To use our app, follow the [link]() to our full deployed site.
 
 ---
 
-- [ ]
+- [ ] Transfer plants when rooms are deleted
+- [ ] View other users plant lists
+- [ ] Schedule watering alert
+- [ ] User provided images - (upload)
+- [ ] Plant identification by image - (3rd party API)
+- [ ] Update user interaction alert windows
+- [ ] Forgot password function
 
 ## Credits
 
