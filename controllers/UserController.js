@@ -20,7 +20,6 @@ const RegisterUser = async (req, res) => {
       return res.send(`That Email Already Exists`)
     } else {
       let validEmail = validator.validate(email)
-      console.log(validEmail)
       if (!validEmail) {
         return res.send(`Invalid Email Format`)
       } else {
@@ -52,7 +51,8 @@ const Login = async (req, res) => {
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    // return res.send(`Error Logging In`)
+    res.status(401).send({ status: 'Error', msg: 'Login Error' })
   } catch (error) {
     throw error
   }
